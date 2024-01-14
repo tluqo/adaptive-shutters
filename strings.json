@@ -1,0 +1,54 @@
+{
+    "config": {
+        "step": {
+            "user": {
+                "title": "Choose a name for the Adaptive Shutters instance",
+                "description": "TODO: desc",
+                "data": {
+                    "name": "Name"
+                },
+                "abort": {
+                    "already_configured": "[%key:common::config_flow::abort::already_configured_device%]"
+                }
+            },
+            "options": {
+                "title": "Adaptive Shutters options1",
+                "description": "TODO: desc1",
+                "data": {
+                    "sunrise_time": "Sunrise time",
+                    "sunrise_offset": "Sunrise time",
+                    "sunset_time": "Sunset time",
+                    "sunset_offset": "Sunset time"
+                },
+                "abort": {
+                    "already_configured": "[%key:common::config_flow::abort::already_configured_device%]"
+                }
+            }
+        },
+        "error": {},
+        "abort": {
+            "already_configured": "[%key:common::config_flow::abort::already_configured_device%]"
+        }
+    },
+    "options": {
+        "step": {
+            "user": {
+                "title": "Adaptive Shutters options2",
+                "description": "TODO: desc2",
+                "data": {
+                    "sunrise_time": "Sunrise time",
+                    "sunrise_offset": "Sunrise time",
+                    "sunset_time": "Sunset time",
+                    "sunset_offset": "Sunset time"
+                },
+                "abort": {
+                    "already_configured": "[%key:common::config_flow::abort::already_configured_device%]"
+                }
+            },
+            "error": {},
+            "abort": {
+                "already_configured": "[%key:common::config_flow::abort::already_configured_device%]"
+            }
+        }
+    }
+}

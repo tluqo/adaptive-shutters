@@ -11,13 +11,17 @@ import homeassistant.helpers.config_validation as cv
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import CONF_NAME
 
+from homeassistant.components.switch import DOMAIN as SWITCH_DOMAIN
 from homeassistant.components.switch import PLATFORM_SCHEMA, SwitchEntity
 
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.typing import ConfigType, DiscoveryInfoType
 
-from .const import DOMAIN
+from .const import (
+    DOMAIN,
+    ICON_MAIN,
+)
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -47,7 +51,22 @@ async def async_setup_entry(
     async_add_entities: AddEntitiesCallback,
 ) -> None:
     """Set up Example sensor based on a config entry."""
-    async_setup_platform(hass, entry)
+
+    assert hass is not None
+    data = hass.data[DOMAIN]
+    data = entry.data
+    # TODO: maybe
+    # assert entry.entry_id in data
+
+    config = hass.data[DOMAIN][entry.entry_id]
+    if entry.options:
+        config.update(entry.options)
+
+    switch = AdaptiveSwitch(hass, config)
+
+    data[entry.entry_id][SWITCH_DOMAIN] = switch
+
+    async_add_entities([switch], update_before_add=True)
 
 
 class AdaptiveSwitch(SwitchEntity):
@@ -78,16 +97,16 @@ class AdaptiveSwitch(SwitchEntity):
     @property
     def icon(self) -> str | None:
         """Icon of the entity."""
-        return "mdi:window-shutter-auto"
+        return ICON_MAIN
 
     @property
     def name(self):
         """Name of the entity."""
         return self._name
 
-
     def update(self) -> None:
         """Synchronize state with switch."""
         # self.hass.states.set(STATE_ENTITY_ID, self._state)
+
 
 #    def validate( config_entry: ConfigEntry | None)

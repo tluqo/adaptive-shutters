@@ -15,6 +15,8 @@ PLATFORMS = ["switch"]
 def setup(hass: HomeAssistant, config: ConfigType) -> bool:
     """Your controller/hub specific code."""
 
+    data = hass.data.setdefault(DOMAIN, {})
+
     return True
 
 
@@ -39,7 +41,8 @@ async def async_setup(hass: HomeAssistant, config: dict[str, Any]):
 
 async def async_setup_entry(hass: HomeAssistant, config_entry: ConfigEntry) -> bool:
     """Set up the component."""
-    # data = hass.data.setdefault(DOMAIN, {})
+    data = hass.data.setdefault(DOMAIN, {})
+    data[config_entry.entry_id] = {}
 
     # This will reload any changes the user made to any YAML configurations.
     # Called during 'quick reload' or hass.reload_config_entry

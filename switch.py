@@ -54,15 +54,18 @@ async def async_setup_entry(
 
     assert hass is not None
     data = hass.data[DOMAIN]
-    data = entry.data
+    # assert entry.entry_id in data
+
     # TODO: maybe
     # assert entry.entry_id in data
 
-    config = hass.data[DOMAIN][entry.entry_id]
-    if entry.options:
-        config.update(entry.options)
+    _LOGGER.debug(
+        "Setting up AdaptiveLShutters with data: %s and config_entry %s",
+        data,
+        entry,
+    )
 
-    switch = AdaptiveSwitch(hass, config)
+    switch = AdaptiveSwitch(hass, entry)
 
     data[entry.entry_id][SWITCH_DOMAIN] = switch
 
@@ -79,7 +82,10 @@ class AdaptiveSwitch(SwitchEntity):
         self._attr_unique_id = ...
 
         self.hass = hass
-        self._name = config_entry[CONF_NAME]
+
+        data = config_entry.data
+
+        self._name = data[CONF_NAME]
 
     @property
     def is_on(self):

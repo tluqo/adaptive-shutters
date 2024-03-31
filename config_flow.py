@@ -41,7 +41,7 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             # except ValueError:
             #     error["base"] = "name";
             self.data = user_input
-            return await self.async_step_options()
+            return self.async_create_entry(title=self.data[CONF_NAME], data=self.data)
 
         return self.async_show_form(
             step_id="user", data_schema=vol.Schema({vol.Required(CONF_NAME): cv.string})
